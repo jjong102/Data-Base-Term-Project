@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}지역 축제 정보{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="page">
+    <header class="topbar">
+        <div class="topbar__brand">
+            <div class="brand__mark">INU</div>
+            <div>
+                <div class="brand__title">지역축제</div>
+                <div class="brand__subtitle">공공데이터 기반</div>
+            </div>
+        </div>
+        <nav class="topbar__nav">
+            <a href="{% url 'festival_list' %}" class="nav__link">축제 목록</a>
+            <a href="/admin/" class="nav__link">관리</a>
+        </nav>
+    </header>
+
+    <main class="content">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message message--{{ message.tags|default:'info' }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div>데이터 출처: 인천문화포털 지역축제 API</div>
+    </footer>
+</body>
+</html>
