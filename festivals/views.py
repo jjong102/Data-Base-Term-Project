@@ -9,30 +9,18 @@ from .models import Festival
 
 def festival_list(request):
     query = request.GET.get("q", "").strip()
-    category = request.GET.get("category", "").strip()
 
-    festivals = Festival.objects.all().order_by("title")
+    festivals = Festival.objects.all().order_by("start_date", "title")
     if query:
         festivals = festivals.filter(title__icontains=query)
-    if category:
-        festivals = festivals.filter(category__icontains=category)
 
     paginator = Paginator(festivals, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    categories = (
-        Festival.objects.exclude(category="")
-        .values_list("category", flat=True)
-        .distinct()
-        .order_by("category")
-    )
-
     context = {
         "page_obj": page_obj,
         "query": query,
-        "category": category,
-        "categories": categories,
     }
     return render(request, "festivals/festival_list.html", context)
 

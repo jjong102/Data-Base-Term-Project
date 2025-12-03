@@ -91,13 +91,11 @@ class Command(BaseCommand):
                 external_id=external_id,
                 defaults={
                     "title": item.get("title", ""),
-                    "link": item.get("link", ""),
-                    "category": item.get("category", ""),
-                    "organizer": item.get("organizer", ""),
-                    "start_year": item.get("start_year", ""),
-                    "period": item.get("period", ""),
-                    "telephone": item.get("telephone", ""),
                     "description": item.get("description", ""),
+                    "organizer": item.get("organizer", ""),
+                    "telephone": item.get("telephone", ""),
+                    "extra_info": item.get("period", ""),
+                    "homepage": item.get("link", ""),
                     "pub_date": item.get("pub_date"),
                 },
             )

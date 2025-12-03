@@ -5,19 +5,14 @@
     <div>
         <p class="eyebrow">공공데이터</p>
         <h1>지역 축제 목록</h1>
-        <p class="lede">INU 블루/골드 톤으로 꾸민 가벼운 목록입니다. 검색과 필터를 통해 축제를 찾아보세요.</p>
+        <p class="lede"> 인천대학교 학우들을 위한 지역 축제 정보 공유 플랫폼! </p>
+        <p class="lede"> 함께 축제에 참여할 친구들을 찾아보세요! </p>
     </div>
 </section>
 
 <section class="panel">
     <form method="get" class="filter-form">
         <input type="text" name="q" value="{{ query }}" placeholder="축제명 검색" class="input">
-        <select name="category" class="input">
-            <option value="">분류 전체</option>
-            {% for c in categories %}
-                <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
-            {% endfor %}
-        </select>
         <button type="submit" class="button button--primary">검색</button>
     </form>
 
@@ -26,14 +21,20 @@
             {% for festival in page_obj.object_list %}
                 <article class="card">
                     <div class="card__meta">
-                        <span class="tag">{{ festival.category|default:"분류없음" }}</span>
-                        <span class="muted">{{ festival.start_year|default:"" }}</span>
+                        <span class="tag">{{ festival.place|default:"장소 정보 없음" }}</span>
+                        <span class="muted">
+                            {% if festival.start_date %}
+                                {{ festival.start_date }}{% if festival.end_date %} ~ {{ festival.end_date }}{% endif %}
+                            {% else %}
+                                일정 미정
+                            {% endif %}
+                        </span>
                     </div>
                     <h3 class="card__title">
                         <a href="{% url 'festival_detail' festival.pk %}">{{ festival.title }}</a>
                     </h3>
-                    <p class="muted">{{ festival.organizer|default:"주최/주관 정보 없음" }}</p>
-                    <p class="small">{{ festival.period|default:"개최시기 정보 없음" }}</p>
+                    <p class="muted">{{ festival.organizer|default:"주관 정보 없음" }}</p>
+                    <p class="small">{{ festival.host|default:"주최 정보 없음" }}</p>
                     <div class="card__footer">
                         <a class="link" href="{% url 'festival_detail' festival.pk %}">상세보기 →</a>
                     </div>

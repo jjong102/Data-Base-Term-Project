@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from festivals.models import Comment, Festival
-from festivals.services import parse_festivals_xml
+from festivals.services import parse_date, parse_decimal, parse_festivals_xml
 
 
 class ParserTests(TestCase):
@@ -36,13 +36,17 @@ class ParserTests(TestCase):
         self.assertEqual(item["category"], "기타")
         self.assertIsNotNone(item["pub_date"])
 
+    def test_parse_helpers(self):
+        self.assertEqual(parse_date("2024-01-02").isoformat(), "2024-01-02")
+        self.assertAlmostEqual(parse_decimal("37.1234"), 37.1234)
+        self.assertIsNone(parse_date("bad"))
+
 
 class CommentFlowTests(TestCase):
     def setUp(self):
         self.festival = Festival.objects.create(
-            external_id="1",
+            external_id="fest-1",
             title="댓글 테스트",
-            category="기타",
         )
 
     def test_post_comment(self):

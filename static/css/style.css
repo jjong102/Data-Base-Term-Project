@@ -59,7 +59,7 @@ h1 { margin: 0 0 6px; font-size: 28px; }
     box-shadow: var(--shadow);
 }
 
-.filter-form { display: grid; grid-template-columns: 1fr 180px auto; gap: 10px; margin-bottom: 16px; }
+.filter-form { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 16px; }
 .input {
     padding: 10px 12px;
     border: 1px solid var(--border);

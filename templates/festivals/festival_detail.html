@@ -5,17 +5,21 @@
     <a href="{% url 'festival_list' %}" class="link">← 목록으로</a>
     <div class="detail__header">
         <div>
-            <p class="eyebrow">{{ festival.category|default:"분류없음" }}</p>
+            <p class="eyebrow">{{ festival.place|default:"장소 정보 없음" }}</p>
             <h1>{{ festival.title }}</h1>
-            <p class="lede">{{ festival.organizer|default:"주최/주관 정보 없음" }}</p>
+            <p class="lede">
+                {% if festival.start_date %}{{ festival.start_date }}{% if festival.end_date %} ~ {{ festival.end_date }}{% endif %}{% else %}일정 미정{% endif %}
+            </p>
             <div class="detail__meta">
-                {% if festival.period %}<span class="tag">개최시기: {{ festival.period }}</span>{% endif %}
-                {% if festival.start_year %}<span class="tag">최초개최: {{ festival.start_year }}</span>{% endif %}
+                {% if festival.organizer %}<span class="tag">주관: {{ festival.organizer }}</span>{% endif %}
+                {% if festival.host %}<span class="tag">주최: {{ festival.host }}</span>{% endif %}
+                {% if festival.sponsor %}<span class="tag">후원: {{ festival.sponsor }}</span>{% endif %}
                 {% if festival.telephone %}<span class="tag">연락처: {{ festival.telephone }}</span>{% endif %}
-                {% if festival.pub_date %}<span class="tag">등록일: {{ festival.pub_date|date:"Y-m-d" }}</span>{% endif %}
+                {% if festival.homepage %}<span class="tag">홈페이지</span>{% endif %}
+                {% if festival.data_reference_date %}<span class="tag">기준일: {{ festival.data_reference_date }}</span>{% endif %}
             </div>
-            {% if festival.link %}
-                <p><a class="link" href="{{ festival.link }}" target="_blank" rel="noopener">상세 페이지 보기</a></p>
+            {% if festival.homepage %}
+                <p><a class="link" href="{{ festival.homepage }}" target="_blank" rel="noopener">홈페이지 바로가기</a></p>
             {% endif %}
         </div>
     </div>
@@ -25,6 +29,15 @@
             <pre class="description">{{ festival.description }}</pre>
         {% else %}
             <p class="muted">설명 정보가 없습니다.</p>
+        {% endif %}
+        {% if festival.extra_info %}
+            <pre class="description">{{ festival.extra_info }}</pre>
+        {% endif %}
+        {% if festival.address_road or festival.address_lot %}
+            <p class="muted">주소: {{ festival.address_road|default:festival.address_lot }}</p>
+        {% endif %}
+        {% if festival.latitude and festival.longitude %}
+            <p class="muted">좌표: {{ festival.latitude }}, {{ festival.longitude }}</p>
         {% endif %}
     </article>
 </section>

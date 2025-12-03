@@ -5,9 +5,9 @@ from .models import Comment, Festival
 
 @admin.register(Festival)
 class FestivalAdmin(admin.ModelAdmin):
-    list_display = ("title", "category", "organizer", "start_year", "pub_date")
-    search_fields = ("title", "organizer", "category", "external_id")
-    ordering = ("title",)
+    list_display = ("title", "place", "start_date", "organizer", "host", "data_reference_date")
+    search_fields = ("title", "organizer", "host", "external_id")
+    ordering = ("start_date", "title")
 
 
 @admin.register(Comment)
