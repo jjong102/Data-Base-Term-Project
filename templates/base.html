@@ -18,6 +18,9 @@
         </div>
         <nav class="topbar__nav">
             <a href="{% url 'festival_list' %}" class="nav__link">축제 목록</a>
+            {% if request.user.is_authenticated and request.user.is_staff %}
+                <a href="{% url 'festival_create' %}" class="nav__link">새 축제</a>
+            {% endif %}
             <a href="/admin/" class="nav__link">관리</a>
         </nav>
     </header>

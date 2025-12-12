@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Comment
+from .models import Comment, Festival
 
 
 class CommentForm(forms.ModelForm):
@@ -34,3 +34,30 @@ class CommentForm(forms.ModelForm):
         if not content:
             raise forms.ValidationError("내용을 입력해주세요.")
         return content
+
+
+class FestivalForm(forms.ModelForm):
+    class Meta:
+        model = Festival
+        fields = [
+            "title",
+            "place",
+            "start_date",
+            "end_date",
+            "description",
+            "organizer",
+            "host",
+            "sponsor",
+            "telephone",
+            "homepage",
+            "extra_info",
+            "address_road",
+            "address_lot",
+            "latitude",
+            "longitude",
+            "data_reference_date",
+        ]
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 4}),
+            "extra_info": forms.Textarea(attrs={"rows": 3}),
+        }

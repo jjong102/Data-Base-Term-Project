@@ -21,6 +21,12 @@
             {% if festival.homepage %}
                 <p><a class="link" href="{{ festival.homepage }}" target="_blank" rel="noopener">홈페이지 바로가기</a></p>
             {% endif %}
+            {% if request.user.is_authenticated and request.user.is_staff %}
+                <p class="muted">
+                    <a class="link" href="{% url 'festival_update' festival.pk %}">수정</a> ·
+                    <a class="link" href="{% url 'festival_delete' festival.pk %}">삭제</a>
+                </p>
+            {% endif %}
         </div>
     </div>
 

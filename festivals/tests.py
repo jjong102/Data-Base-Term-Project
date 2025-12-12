@@ -8,6 +8,7 @@ from django.urls import reverse
 from festivals.management.commands.load_festivals_from_csv import Command as LoadCsvCommand
 from festivals.models import Comment, Festival
 from festivals.services import parse_date, parse_decimal, parse_festivals_xml
+from django.contrib.auth.models import User
 
 
 class ParserTests(TestCase):
@@ -135,3 +136,26 @@ class CommentFlowTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Comment.objects.count(), 0)
         self.assertContains(response, "내용을 입력해주세요.")
+
+
+class StaffAccessTests(TestCase):
+    def setUp(self):
+        self.staff = User.objects.create_user(username="staff", password="pw", is_staff=True)
+        self.festival = Festival.objects.create(
+            external_id="fest-2",
+            title="CRUD 테스트",
+        )
+
+    def test_create_requires_login(self):
+        resp = self.client.get(reverse("festival_create"))
+        self.assertEqual(resp.status_code, 302)
+
+    def test_staff_can_create(self):
+        self.client.login(username="staff", password="pw")
+        resp = self.client.post(
+            reverse("festival_create"),
+            {"title": "새 축제", "place": "인천"},
+            follow=True,
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(Festival.objects.filter(title="새 축제").exists())
