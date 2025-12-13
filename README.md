@@ -124,5 +124,3 @@
 
 ## github에 소스코드 업로드한 주소
 https://github.com/jjong102/Data-Base-Term-Project
-
-## 실행 동영상
