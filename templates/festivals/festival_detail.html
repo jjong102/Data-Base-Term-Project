@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}{{ festival.title }} - 지역 축제{% endblock %}
+{% block title %}{{ festival.title }} - 지역축제{% endblock %}
 {% block content %}
 <section class="panel">
-    <a href="{% url 'festival_list' %}" class="link">← 목록으로</a>
+    <a href="{% url 'festival_list' %}" class="link">목록으로</a>
     <div class="detail__header">
         <div>
             <p class="eyebrow">{{ festival.place|default:"장소 정보 없음" }}</p>
@@ -11,12 +11,12 @@
                 {% if festival.start_date %}{{ festival.start_date }}{% if festival.end_date %} ~ {{ festival.end_date }}{% endif %}{% else %}일정 미정{% endif %}
             </p>
             <div class="detail__meta">
-                {% if festival.organizer %}<span class="tag">주관: {{ festival.organizer }}</span>{% endif %}
-                {% if festival.host %}<span class="tag">주최: {{ festival.host }}</span>{% endif %}
+                {% if festival.organizer %}<span class="tag">주최: {{ festival.organizer }}</span>{% endif %}
+                {% if festival.host %}<span class="tag">주관: {{ festival.host }}</span>{% endif %}
                 {% if festival.sponsor %}<span class="tag">후원: {{ festival.sponsor }}</span>{% endif %}
-                {% if festival.telephone %}<span class="tag">연락처: {{ festival.telephone }}</span>{% endif %}
+                {% if festival.telephone %}<span class="tag">연락처 {{ festival.telephone }}</span>{% endif %}
                 {% if festival.homepage %}<span class="tag">홈페이지</span>{% endif %}
-                {% if festival.data_reference_date %}<span class="tag">기준일: {{ festival.data_reference_date }}</span>{% endif %}
+                {% if festival.data_reference_date %}<span class="tag">기준일 {{ festival.data_reference_date }}</span>{% endif %}
             </div>
             {% if festival.homepage %}
                 <p><a class="link" href="{{ festival.homepage }}" target="_blank" rel="noopener">홈페이지 바로가기</a></p>

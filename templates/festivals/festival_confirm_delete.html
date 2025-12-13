@@ -2,9 +2,9 @@
 {% block title %}축제 삭제{% endblock %}
 {% block content %}
 <section class="panel">
-    <a href="{% url 'festival_detail' festival.pk %}" class="link">← 돌아가기</a>
+    <a href="{% url 'festival_detail' festival.pk %}" class="link">뒤로가기</a>
     <h1>축제 삭제</h1>
-    <p>정말로 "<strong>{{ festival.title }}</strong>" 축제를 삭제하시겠습니까?</p>
+    <p>정말 "<strong>{{ festival.title }}</strong>" 축제를 삭제하시겠습니까?</p>
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="button button--primary">삭제</button>

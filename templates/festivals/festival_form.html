@@ -1,21 +1,22 @@
 {% extends "base.html" %}
-{% block title %}{% if mode == "create" %}축제 생성{% else %}축제 수정{% endif %}{% endblock %}
+{% block title %}{% if mode == "create" %}축제 등록{% else %}축제 수정{% endif %}{% endblock %}
 {% block content %}
 <section class="panel">
-    <a href="{% url 'festival_list' %}" class="link">← 목록으로</a>
-    <h1>{% if mode == "create" %}축제 생성{% else %}축제 수정{% endif %}</h1>
+    <a href="{% url 'festival_list' %}" class="link">목록으로</a>
+    <h1>{% if mode == "create" %}축제 등록{% else %}축제 수정{% endif %}</h1>
     <form method="post" class="comment-form">
         {% csrf_token %}
         {% for field in form %}
             <div class="form-row">
                 {{ field.label_tag }}<br>
                 {{ field }}
+                {% if field.help_text %}<p class="muted">{{ field.help_text }}</p>{% endif %}
                 {% for error in field.errors %}
                     <div class="field-error">{{ error }}</div>
                 {% endfor %}
             </div>
         {% endfor %}
-        <button type="submit" class="button button--primary">{% if mode == "create" %}생성하기{% else %}저장하기{% endif %}</button>
+        <button type="submit" class="button button--primary">{% if mode == "create" %}등록하기{% else %}저장하기{% endif %}</button>
     </form>
 </section>
 {% endblock %}

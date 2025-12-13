@@ -5,7 +5,7 @@ from typing import Tuple
 import requests
 from django.core.management.base import BaseCommand, CommandError
 
-from festivals.models import Festival
+from festivals.models import Festival, FestivalOrganization, Organization
 from festivals.services import parse_festivals_xml
 
 API_URL = "http://iq.ifac.or.kr/openAPI/real/search.do"
@@ -92,15 +92,23 @@ class Command(BaseCommand):
                 defaults={
                     "title": item.get("title", ""),
                     "description": item.get("description", ""),
-                    "organizer": item.get("organizer", ""),
                     "telephone": item.get("telephone", ""),
                     "extra_info": item.get("period", ""),
                     "homepage": item.get("link", ""),
                     "pub_date": item.get("pub_date"),
                 },
             )
+            self._set_role(obj, FestivalOrganization.Role.ORGANIZER, item.get("organizer", ""))
             if was_created:
                 created += 1
             else:
                 updated += 1
         return created, updated
+
+    def _set_role(self, festival: Festival, role: str, name: str):
+        FestivalOrganization.objects.filter(festival=festival, role=role).delete()
+        cleaned = (name or "").strip()
+        if not cleaned:
+            return
+        org, _ = Organization.objects.get_or_create(name=cleaned)
+        FestivalOrganization.objects.create(festival=festival, organization=org, role=role)

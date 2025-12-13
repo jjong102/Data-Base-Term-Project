@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+# Customize Django admin branding.
+admin.site.site_header = "관리자 설정"
+admin.site.site_title = "관리자 설정"
+admin.site.index_title = "사이트 관리"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("festivals.urls")),
